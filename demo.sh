@@ -46,6 +46,7 @@ function validateImage {
   wait
   PROMPT_TIMEOUT=0
   pei "http :8080/actuator/health"
+  pei "docker exec zuluImageExample ls -latr"
   pei "docker exec zuluImageExample cat gc.log"
 }
 
