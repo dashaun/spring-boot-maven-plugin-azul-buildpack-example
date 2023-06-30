@@ -36,13 +36,15 @@ function zuluBuilder {
 }
 
 function springBootBuildImage {
-  pei "./mvnw -q spring-boot:build-image -DskipTests"
+  pei "./mvnw spring-boot:build-image -DskipTests"
 }
 
 function validateImage {
   pei "docker run --name zuluImageExample --rm -d -p 8080:8080 demo:0.0.0"
   pei "docker stats --no-stream zuluImageExample"
-  pei "sleep 5"
+  PROMPT_TIMEOUT=4
+  wait
+  PROMPT_TIMEOUT=0
   pei "http :8080/actuator/health"
   pei "docker exec zuluImageExample cat gc.log"
 }
@@ -59,6 +61,7 @@ talkingPoint
 zuluBuilder
 talkingPoint
 springBootBuildImage
+talkingPoint
 validateImage
 talkingPoint
 cleanupImage
